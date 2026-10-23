@@ -4,11 +4,13 @@
 
 Proyek ini dikembangkan untuk berpartisipasi dalam **FunDev<> International Competition 2026**, dengan fokus mendukung **SDG 2: Zero Hunger** dan **SDG 12: Responsible Consumption and Production**.
 
+
 ## Live Demo
 
 Kamu dapat mencoba aplikasi AgriSense melalui tautan berikut:
 
 **https://agrisense-web-ten.vercel.app/**
+
 
 ## Fitur Utama
 
@@ -39,6 +41,7 @@ Kamu dapat mencoba aplikasi AgriSense melalui tautan berikut:
 - **Text-to-Speech:** Membacakan informasi peringatan cuaca.
 - **Share to WhatsApp:** Memudahkan pengguna membagikan hasil deteksi kepada kelompok tani atau penyuluh.
 
+
 ## Teknologi yang Digunakan
 
 | Kategori | Teknologi |
@@ -50,6 +53,7 @@ Kamu dapat mencoba aplikasi AgriSense melalui tautan berikut:
 | Peta Interaktif | React-Leaflet, OpenStreetMap |
 | API Cuaca | Open-Meteo API |
 | Deployment | Vercel |
+
 
 ## Panduan Instalasi dan Menjalankan Proyek
 
@@ -109,6 +113,7 @@ git push origin main
 
 Jika repositori sudah terhubung dengan Vercel, push ke branch yang terhubung akan memicu proses deployment otomatis sesuai konfigurasi proyek.
 
+
 ## Tim Pengembang
 
 Proyek ini dikembangkan oleh tim mahasiswa untuk **FunDev<> International Competition 2026**.
@@ -116,13 +121,15 @@ Proyek ini dikembangkan oleh tim mahasiswa untuk **FunDev<> International Compet
 - **Nadya Lahfah** — Frontend Developer & UI/UX Designer
 - **Elaine Keisha M. Pasaribu** — Machine Learning Engineer & Data Scientist
 
-## 🎯 Tujuan Proyek
+
+## Tujuan Proyek
 
 AgriSense bertujuan membantu petani mengenali potensi penyakit tanaman padi lebih awal, memahami dampak ekonominya, serta memperoleh informasi cuaca dan panduan perawatan tanaman dalam satu platform.
 
 Melalui pemanfaatan kecerdasan buatan dan teknologi web, AgriSense diharapkan dapat mendukung pertanian yang lebih produktif dan berkelanjutan.
 
-## 🌱 Sustainable Development Goals (SDGs)
+
+## Sustainable Development Goals (SDGs)
 
 - **SDG 2 — Zero Hunger:** Mendukung ketahanan pangan melalui pemantauan kesehatan tanaman padi.
 - **SDG 12 — Responsible Consumption and Production:** Mendorong pengambilan keputusan perawatan tanaman yang lebih tepat dan penggunaan sumber daya secara bertanggung jawab.
