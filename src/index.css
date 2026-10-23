@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  body {
+    background-color: #F8FAF8;
+    color: #0A1C14;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* =========================================
+   MODE TERANG (LIGHT MODE)
+   ========================================= */
+
+/* Memaksa semua teks hijau agar menggunakan warna utama AgriSense (Tosca) */
+.text-\[\#0F766E\] {
+  color: #0F766E !important; 
+}
+
+/* =========================================
+   MODE GELAP (SOFT DARK MODE)
+   ========================================= */
+
+/* 1. Background Utama */
+.dark body,
+.dark .bg-\[\#F8FAF8\],
+.dark .bg-\[\#FDFDFD\],
+.dark .bg-gray-50 {
+  background-color: #232B28 !important; 
+  color: #E2E8E4 !important; 
+}
+
+/* 2. Kartu / Panel */
+.dark .bg-white, 
+.dark aside,
+.dark header {
+  background-color: #2B3531 !important; 
+  border-color: #3D4A44 !important; 
+}
+
+/* 3. Teks Utama */
+.dark .text-\[\#0A1C14\], 
+.dark .text-gray-900, 
+.dark .text-gray-800, 
+.dark .text-gray-700,
+.dark .text-gray-600 {
+  color: #E2E8E4 !important; 
+}
+
+/* 4. Teks Sekunder */
+.dark .text-gray-500 {
+  color: #9AAFA4 !important; 
+}
+
+/* 5. Warna Hijau di Mode Gelap (Gunakan Tosca Terang agar terbaca) */
+.dark .text-\[\#0F766E\] {
+  color: #2DD4BF !important; 
+}
+
+/* 6. Teks di dalam tombol */
+.dark .bg-white .text-\[\#0F766E\],
+.dark .bg-white .text-gray-900 {
+  color: #0F766E !important; 
+}
+.dark .bg-\[\#0F766E\] .text-white {
+  color: #FFFFFF !important;
+}
+
+/* 7. Border & Input */
+.dark .border-gray-200,
+.dark .border-gray-100 {
+  border-color: #3D4A44 !important;
+}
+
+.dark input, .dark select {
+  background-color: #232B28 !important;
+  color: #E2E8E4 !important;
+  border-color: #3D4A44 !important;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
