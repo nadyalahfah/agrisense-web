@@ -8,7 +8,7 @@ Proyek ini dikembangkan untuk berpartisipasi dalam **FunDev<> International Comp
 
 Kamu dapat mencoba aplikasi AgriSense melalui tautan berikut:
 
-**[Buka AgriSense] https://agrisense-web-ten.vercel.app/**
+**https://agrisense-web-ten.vercel.app/**
 
 ## Fitur Utama
 
