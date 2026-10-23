@@ -20,74 +20,77 @@ export default function Sidebar({
     { id: "cuaca", label: t.weather },
     { id: "statistik", label: t.stats },
     { id: "jadwal", label: "Jadwal" },
-    { id: "peta", label: "Peta Sebaran" },
+    { id: "peta", label: "Peta" },
   ];
 
   return (
-    <aside className="w-64 bg-white border-r border-gray-200 min-h-screen hidden md:flex flex-col print:hidden relative">
-      <div className="p-6 border-b border-gray-100 flex items-center gap-3">
-        <div className="w-10 h-10 bg-white rounded-lg border border-gray-100 p-1">
-          <img src="/logo.png" alt="AgriSense Logo" className="w-full h-full object-contain" />
+    <>
+      {/* SIDEBAR UNTUK DESKTOP */}
+      <aside className="w-64 bg-white border-r border-gray-200 min-h-screen hidden md:flex flex-col print:hidden relative">
+        <div className="p-6 border-b border-gray-100 flex items-center gap-3">
+          <div className="w-10 h-10 bg-white rounded-lg border border-gray-100 p-1">
+            <img src="/logo.png" alt="AgriSense Logo" className="w-full h-full object-contain" />
+          </div>
+          <div>
+            <h1 className="text-xl font-light text-[#0F766E] tracking-tight leading-none">
+              Agri<span className="font-semibold">Sense</span>
+            </h1>
+            <p className="text-[9px] uppercase tracking-widest text-gray-400 mt-1 font-medium">
+              Rice Disease AI
+            </p>
+          </div>
         </div>
-        <div>
-          <h1 className="text-xl font-light text-[#0F766E] tracking-tight leading-none">
-            Agri<span className="font-semibold">Sense</span>
-          </h1>
-          <p className="text-[9px] uppercase tracking-widest text-gray-400 mt-1 font-medium">
-            Rice Disease AI
-          </p>
-        </div>
-      </div>
 
-      <nav className="flex-1 p-4 space-y-1">
-        {menus.map((menu) => (
+        <nav className="flex-1 p-4 space-y-1">
+          {menus.map((menu) => (
+            <button
+              key={menu.id}
+              onClick={() => setActiveTab(menu.id)}
+              className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200
+                ${activeTab === menu.id 
+                  ? "bg-[#F0FDF4] text-[#0F766E] border border-[#DCFCE7]" 
+                  : "text-gray-500 hover:bg-gray-50 hover:text-[#0F766E]"}
+              `}
+            >
+              {menu.label}
+            </button>
+          ))}
+        </nav>
+
+        {!isInstalled && (
+          <div className="p-4 mx-4 mb-4 bg-gray-50 border border-gray-100 rounded-lg">
+            <p className="text-[10px] text-gray-500 leading-tight">
+              <strong className="text-[#0F766E] block mb-1">PWA Ready</strong>
+              Aplikasi ini dapat diinstal di HP Anda.
+            </p>
+          </div>
+        )}
+
+        <div className="p-4 border-t border-gray-100">
           <button
-            key={menu.id}
-            onClick={() => setActiveTab(menu.id)}
-            className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200
-              ${activeTab === menu.id 
-                ? "bg-[#F0FDF4] text-[#0F766E] border border-[#DCFCE7]" 
-                : "text-gray-500 hover:bg-gray-50 hover:text-[#0F766E]"}
-            `}
+            onClick={() => setShowSettings(true)}
+            className="w-full flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-500 hover:text-[#0F766E] transition-colors rounded-lg hover:bg-gray-50"
           >
-            {menu.label}
+            <span>Pengaturan</span>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
           </button>
-        ))}
-      </nav>
-
-      {!isInstalled && (
-        <div className="p-4 mx-4 mb-4 bg-gray-50 border border-gray-100 rounded-lg">
-          <p className="text-[10px] text-gray-500 leading-tight">
-            <strong className="text-[#0F766E] block mb-1">PWA Ready</strong>
-            Aplikasi ini dapat diinstal di HP Anda. Buka menu browser lalu pilih "Add to Home Screen".
-          </p>
         </div>
-      )}
+      </aside>
 
-      <div className="p-4 border-t border-gray-100">
-        <button
-          onClick={() => setShowSettings(true)}
-          className="w-full flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-500 hover:text-[#0F766E] transition-colors rounded-lg hover:bg-gray-50"
-        >
-          <span>Pengaturan</span>
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
-        </button>
-      </div>
-
-      {/* MOBILE BOTTOM NAVIGATION */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-[100] px-2 py-2 flex justify-around items-center print:hidden shadow-[0_-5px_10px_rgba(0,0,0,0.05)]">
+      {/* MOBILE BOTTOM NAVIGATION (DIPINDAHKAN KELUAR DARI ASIDE) */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-[100] px-1 py-2 flex justify-around items-center shadow-[0_-5px_10px_rgba(0,0,0,0.05)] print:hidden">
         {menus.map((menu) => (
           <button
             key={menu.id}
             onClick={() => setActiveTab(menu.id)}
-            className={`flex flex-col items-center p-1 rounded-lg transition-colors ${
+            className={`flex flex-col items-center p-2 rounded-lg transition-colors w-full ${
               activeTab === menu.id ? "text-[#0F766E]" : "text-gray-400"
             }`}
           >
-            <span className="text-[10px] font-bold">{menu.label.split(' ')[0]}</span>
+            <span className="text-[10px] font-bold text-center leading-tight">{menu.label.split(' ')[0]}</span>
           </button>
         ))}
       </div>
@@ -180,6 +183,6 @@ export default function Sidebar({
           </div>
         </div>
       )}
-    </aside>
+    </>
   );
 }
