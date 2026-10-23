@@ -36,6 +36,9 @@ export default function App() {
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
+  
+  // State untuk Sidebar HP
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const t = translations[lang];
   const user = session?.user;
@@ -229,6 +232,7 @@ export default function App() {
         </div>
       )}
 
+      {/* SIDEBAR DENGAN PROPS MOBILE */}
       <Sidebar 
         activeTab={activeTab} 
         setActiveTab={setActiveTab} 
@@ -240,18 +244,28 @@ export default function App() {
         onLogout={handleLogout}
         isDarkMode={isDarkMode}
         setIsDarkMode={setIsDarkMode}
+        isMobileMenuOpen={isMobileMenuOpen}
+        setIsMobileMenuOpen={setIsMobileMenuOpen}
       />
 
       <main className="flex-1 overflow-y-auto print:overflow-visible relative">
         
         <header className="bg-white/80 backdrop-blur-xl border-b border-gray-200 px-4 py-3 md:px-6 md:py-4 flex justify-between items-center sticky top-0 z-20 print:hidden">
-          <div className="md:hidden flex items-center gap-2">
-            <div className="w-10 h-10 bg-white rounded-lg p-1 shadow-sm">
-              <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
+          <div className="flex items-center gap-3">
+            
+            {/* TOMBOL HAMBURGER (Hanya Muncul di HP) */}
+            <button 
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="md:hidden p-1.5 text-[#0F766E] bg-[#F0FDF4] rounded-lg border border-[#DCFCE7]"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+
+            <div className="md:hidden flex items-center gap-2">
+              <h1 className="text-base font-light tracking-widest text-[#0F766E]">
+                AGRI<span className="font-bold">SENSE</span>
+              </h1>
             </div>
-            <h1 className="text-lg font-light tracking-widest text-[#0F766E]">
-              AGRI<span className="font-bold">SENSE</span>
-            </h1>
           </div>
           
           <div className="hidden md:block">
@@ -289,8 +303,7 @@ export default function App() {
           </div>
         </header>
 
-        {/* TAMBAHKAN pb-24 UNTUK MOBILE NAVIGATION */}
-        <div className="p-4 pb-24 md:p-10 max-w-5xl mx-auto space-y-8 print:p-0">
+        <div className="p-4 pb-10 md:p-10 max-w-5xl mx-auto space-y-8 print:p-0">
           
           <div className="hidden md:block print:hidden">
             <h2 className="text-3xl font-light text-[#0F766E] tracking-tight mb-2">

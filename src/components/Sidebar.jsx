@@ -10,7 +10,9 @@ export default function Sidebar({
   user, 
   onLogout,
   isDarkMode,
-  setIsDarkMode
+  setIsDarkMode,
+  isMobileMenuOpen,
+  setIsMobileMenuOpen
 }) {
   const [showSettings, setShowSettings] = useState(false);
 
@@ -23,10 +25,37 @@ export default function Sidebar({
     { id: "peta", label: "Peta" },
   ];
 
+  const handleMenuClick = (id) => {
+    setActiveTab(id);
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <>
-      {/* SIDEBAR UNTUK DESKTOP */}
-      <aside className="w-64 bg-white border-r border-gray-200 min-h-screen hidden md:flex flex-col print:hidden relative">
+      {/* Latar Belakang Gelap saat Menu HP Terbuka */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-[90] md:hidden transition-opacity"
+          onClick={() => setIsMobileMenuOpen(false)}
+        ></div>
+      )}
+
+      {/* SIDEBAR */}
+      <aside className={`
+        fixed md:static top-0 left-0 h-full w-64 bg-white border-r border-gray-200 z-[100] flex flex-col print:hidden transition-transform duration-300 ease-in-out
+        ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
+      `}>
+        
+        {/* Tombol Tutup (Hanya di HP) */}
+        <div className="md:hidden absolute top-4 right-4">
+          <button 
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="text-gray-500 hover:text-red-500 p-2 bg-gray-50 rounded-full"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        </div>
+
         <div className="p-6 border-b border-gray-100 flex items-center gap-3">
           <div className="w-10 h-10 bg-white rounded-lg border border-gray-100 p-1">
             <img src="/logo.png" alt="AgriSense Logo" className="w-full h-full object-contain" />
@@ -41,11 +70,11 @@ export default function Sidebar({
           </div>
         </div>
 
-        <nav className="flex-1 p-4 space-y-1">
+        <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
           {menus.map((menu) => (
             <button
               key={menu.id}
-              onClick={() => setActiveTab(menu.id)}
+              onClick={() => handleMenuClick(menu.id)}
               className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200
                 ${activeTab === menu.id 
                   ? "bg-[#F0FDF4] text-[#0F766E] border border-[#DCFCE7]" 
@@ -79,21 +108,6 @@ export default function Sidebar({
           </button>
         </div>
       </aside>
-
-      {/* MOBILE BOTTOM NAVIGATION (DIPINDAHKAN KELUAR DARI ASIDE) */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-[100] px-1 py-2 flex justify-around items-center shadow-[0_-5px_10px_rgba(0,0,0,0.05)] print:hidden">
-        {menus.map((menu) => (
-          <button
-            key={menu.id}
-            onClick={() => setActiveTab(menu.id)}
-            className={`flex flex-col items-center p-2 rounded-lg transition-colors w-full ${
-              activeTab === menu.id ? "text-[#0F766E]" : "text-gray-400"
-            }`}
-          >
-            <span className="text-[10px] font-bold text-center leading-tight">{menu.label.split(' ')[0]}</span>
-          </button>
-        ))}
-      </div>
 
       {/* MODAL PENGATURAN */}
       {showSettings && (
