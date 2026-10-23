@@ -36,8 +36,6 @@ export default function App() {
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
-  
-  // State untuk Sidebar HP
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const t = translations[lang];
@@ -232,7 +230,6 @@ export default function App() {
         </div>
       )}
 
-      {/* SIDEBAR DENGAN PROPS MOBILE */}
       <Sidebar 
         activeTab={activeTab} 
         setActiveTab={setActiveTab} 
@@ -253,7 +250,6 @@ export default function App() {
         <header className="bg-white/80 backdrop-blur-xl border-b border-gray-200 px-4 py-3 md:px-6 md:py-4 flex justify-between items-center sticky top-0 z-20 print:hidden">
           <div className="flex items-center gap-3">
             
-            {/* TOMBOL HAMBURGER (Hanya Muncul di HP) */}
             <button 
               onClick={() => setIsMobileMenuOpen(true)}
               className="md:hidden p-1.5 text-[#0F766E] bg-[#F0FDF4] rounded-lg border border-[#DCFCE7]"
@@ -262,6 +258,10 @@ export default function App() {
             </button>
 
             <div className="md:hidden flex items-center gap-2">
+              {/* LOGO DIPERBAIKI */}
+              <div className="w-9 h-9 flex items-center justify-center shrink-0">
+                <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
+              </div>
               <h1 className="text-base font-light tracking-widest text-[#0F766E]">
                 AGRI<span className="font-bold">SENSE</span>
               </h1>

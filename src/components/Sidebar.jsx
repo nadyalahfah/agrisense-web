@@ -32,7 +32,6 @@ export default function Sidebar({
 
   return (
     <>
-      {/* Latar Belakang Gelap saat Menu HP Terbuka */}
       {isMobileMenuOpen && (
         <div 
           className="fixed inset-0 bg-black/50 z-[90] md:hidden transition-opacity"
@@ -40,13 +39,11 @@ export default function Sidebar({
         ></div>
       )}
 
-      {/* SIDEBAR */}
       <aside className={`
         fixed md:static top-0 left-0 h-full w-64 bg-white border-r border-gray-200 z-[100] flex flex-col print:hidden transition-transform duration-300 ease-in-out
         ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
       `}>
         
-        {/* Tombol Tutup (Hanya di HP) */}
         <div className="md:hidden absolute top-4 right-4">
           <button 
             onClick={() => setIsMobileMenuOpen(false)}
@@ -57,7 +54,8 @@ export default function Sidebar({
         </div>
 
         <div className="p-6 border-b border-gray-100 flex items-center gap-3">
-          <div className="w-10 h-10 bg-white rounded-lg border border-gray-100 p-1">
+          {/* LOGO DIPERBAIKI */}
+          <div className="w-11 h-11 flex items-center justify-center shrink-0">
             <img src="/logo.png" alt="AgriSense Logo" className="w-full h-full object-contain" />
           </div>
           <div>
@@ -109,7 +107,6 @@ export default function Sidebar({
         </div>
       </aside>
 
-      {/* MODAL PENGATURAN */}
       {showSettings && (
         <div className="fixed inset-0 z-[999] flex items-center justify-center p-4">
           <div 

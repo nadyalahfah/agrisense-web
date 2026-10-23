@@ -22,9 +22,12 @@ export default function LandingPage({ onStart, lang, setLang, t }) {
       {/* NAVBAR */}
       <nav className="absolute top-0 left-0 right-0 z-50 px-4 py-4 md:px-6 md:py-6 flex justify-between items-center max-w-7xl mx-auto">
         <div className="flex items-center gap-2 md:gap-4">
-          <div className="w-10 h-10 md:w-14 md:h-14 bg-white rounded-xl md:rounded-2xl p-1 shadow-xl flex items-center justify-center">
+          
+          {/* LOGO DIPERBAIKI (NAVBAR) */}
+          <div className="w-10 h-10 md:w-14 md:h-14 flex items-center justify-center shrink-0">
             <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
           </div>
+          
           <div>
             <h1 className="text-xl md:text-3xl font-light tracking-tight text-white drop-shadow-lg leading-none">
               Agri<span className="font-bold text-[#DCFCE7]">Sense</span>
@@ -288,14 +291,15 @@ export default function LandingPage({ onStart, lang, setLang, t }) {
         </div>
       </section>
 
-      {/* FOOTER LIGHT & MEGAH */}
+      {/* FOOTER */}
       <footer className="bg-white pt-24 pb-12 border-t border-gray-100 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 mb-16">
             
             <div className="lg:col-span-2">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 bg-white rounded-xl p-1 shadow-md border border-gray-100">
+              <div className="flex items-center gap-3 mb-6">
+                {/* LOGO DIPERBAIKI (FOOTER) */}
+                <div className="w-10 h-10 flex items-center justify-center shrink-0">
                   <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
                 </div>
                 <h1 className="text-3xl font-light tracking-tight text-gray-900">Agri<span className="font-bold text-[#0F766E]">Sense</span></h1>
