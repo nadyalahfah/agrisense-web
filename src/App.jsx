@@ -33,7 +33,6 @@ export default function App() {
   const [showLanding, setShowLanding] = useState(true);
   const [detectionId, setDetectionId] = useState(null);
 
-  // State Fitur Baru
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
@@ -224,7 +223,6 @@ export default function App() {
   return (
     <div className="flex h-screen overflow-hidden bg-[#F8FAF8] print:h-auto print:overflow-visible font-sans">
       
-      {/* Offline Banner */}
       {isOffline && (
         <div className="fixed top-0 left-0 right-0 bg-red-600 text-white text-center py-2 text-sm font-bold z-[9999] animate-fade-in shadow-lg">
           Koneksi internet terputus. Anda berada dalam Mode Offline.
@@ -246,9 +244,9 @@ export default function App() {
 
       <main className="flex-1 overflow-y-auto print:overflow-visible relative">
         
-        <header className="bg-white/80 backdrop-blur-xl border-b border-gray-200 px-6 py-4 flex justify-between items-center sticky top-0 z-20 print:hidden">
-          <div className="md:hidden flex items-center gap-3">
-            <div className="w-8 h-8 bg-white border border-gray-100 rounded-lg p-1">
+        <header className="bg-white/80 backdrop-blur-xl border-b border-gray-200 px-4 py-3 md:px-6 md:py-4 flex justify-between items-center sticky top-0 z-20 print:hidden">
+          <div className="md:hidden flex items-center gap-2">
+            <div className="w-10 h-10 bg-white rounded-lg p-1 shadow-sm">
               <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
             </div>
             <h1 className="text-lg font-light tracking-widest text-[#0F766E]">
@@ -263,27 +261,27 @@ export default function App() {
             </p>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4">
             <select 
               value={lang} 
               onChange={(e) => setLang(e.target.value)}
-              className="bg-gray-50 border border-gray-200 text-[#0F766E] text-xs font-bold rounded-lg px-3 py-2 focus:outline-none focus:border-[#0F766E] cursor-pointer"
+              className="bg-gray-50 border border-gray-200 text-[#0F766E] text-[10px] md:text-xs font-bold rounded-lg px-2 py-1.5 md:px-3 md:py-2 focus:outline-none focus:border-[#0F766E] cursor-pointer"
             >
-              <option value="id">ID (Indonesia)</option>
-              <option value="en">EN (English)</option>
+              <option value="id">ID</option>
+              <option value="en">EN</option>
             </select>
 
             {user ? (
               <button
                 onClick={handleLogout}
-                className="text-xs font-bold text-red-600 bg-red-50 hover:bg-red-100 border border-red-100 px-4 py-2 rounded-lg transition-colors"
+                className="text-[10px] md:text-xs font-bold text-red-600 bg-red-50 hover:bg-red-100 border border-red-100 px-3 py-1.5 md:px-4 md:py-2 rounded-lg transition-colors"
               >
                 Keluar
               </button>
             ) : (
               <button
                 onClick={() => setIsGuest(false)}
-                className="text-xs font-bold text-[#0F766E] bg-[#F0FDF4] hover:bg-[#DCFCE7] border border-[#DCFCE7] px-4 py-2 rounded-lg transition-colors"
+                className="text-[10px] md:text-xs font-bold text-[#0F766E] bg-[#F0FDF4] hover:bg-[#DCFCE7] border border-[#DCFCE7] px-3 py-1.5 md:px-4 md:py-2 rounded-lg transition-colors"
               >
                 Masuk
               </button>
@@ -291,7 +289,8 @@ export default function App() {
           </div>
         </header>
 
-        <div className="p-6 md:p-10 max-w-5xl mx-auto space-y-8 print:p-0">
+        {/* TAMBAHKAN pb-24 UNTUK MOBILE NAVIGATION */}
+        <div className="p-4 pb-24 md:p-10 max-w-5xl mx-auto space-y-8 print:p-0">
           
           <div className="hidden md:block print:hidden">
             <h2 className="text-3xl font-light text-[#0F766E] tracking-tight mb-2">

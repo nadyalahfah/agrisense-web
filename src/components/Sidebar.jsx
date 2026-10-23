@@ -77,6 +77,21 @@ export default function Sidebar({
         </button>
       </div>
 
+      {/* MOBILE BOTTOM NAVIGATION */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-[100] px-2 py-2 flex justify-around items-center print:hidden shadow-[0_-5px_10px_rgba(0,0,0,0.05)]">
+        {menus.map((menu) => (
+          <button
+            key={menu.id}
+            onClick={() => setActiveTab(menu.id)}
+            className={`flex flex-col items-center p-1 rounded-lg transition-colors ${
+              activeTab === menu.id ? "text-[#0F766E]" : "text-gray-400"
+            }`}
+          >
+            <span className="text-[10px] font-bold">{menu.label.split(' ')[0]}</span>
+          </button>
+        ))}
+      </div>
+
       {/* MODAL PENGATURAN */}
       {showSettings && (
         <div className="fixed inset-0 z-[999] flex items-center justify-center p-4">
@@ -86,7 +101,6 @@ export default function Sidebar({
           ></div>
           
           <div className="relative bg-white rounded-[2rem] shadow-2xl border border-gray-100 max-w-md w-full overflow-hidden animate-fade-in">
-            {/* Header Modal */}
             <div className="bg-[#F8FAF8] p-6 border-b border-gray-100 flex justify-between items-center">
               <h3 className="text-xl font-black text-[#0F766E]">Pengaturan</h3>
               <button 
@@ -98,7 +112,6 @@ export default function Sidebar({
             </div>
 
             <div className="p-6 space-y-6">
-              {/* Profil Akun */}
               <div>
                 <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Informasi Akun</p>
                 <div className="flex items-center gap-4 bg-[#F8FAF8] p-4 rounded-xl border border-gray-100">
@@ -112,7 +125,6 @@ export default function Sidebar({
                 </div>
               </div>
 
-              {/* Preferensi Bahasa */}
               <div>
                 <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Bahasa Aplikasi</p>
                 <div className="flex gap-2">
@@ -131,7 +143,6 @@ export default function Sidebar({
                 </div>
               </div>
 
-              {/* Mode Gelap */}
               <div>
                 <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Tampilan</p>
                 <button 
@@ -145,7 +156,6 @@ export default function Sidebar({
                 </button>
               </div>
 
-              {/* Info Aplikasi */}
               <div>
                 <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Tentang Aplikasi</p>
                 <div className="bg-[#F8FAF8] p-4 rounded-xl border border-gray-100 text-sm font-medium text-gray-600 space-y-1">
@@ -155,7 +165,6 @@ export default function Sidebar({
                 </div>
               </div>
 
-              {/* Tombol Logout */}
               {user && (
                 <button
                   onClick={() => {

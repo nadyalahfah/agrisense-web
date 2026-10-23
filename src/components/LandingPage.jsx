@@ -20,40 +20,33 @@ export default function LandingPage({ onStart, lang, setLang, t }) {
     <div className="min-h-screen bg-[#FDFDFD] font-sans overflow-x-hidden selection:bg-[#0F766E] selection:text-white">
       
       {/* NAVBAR */}
-      <nav className="absolute top-0 left-0 right-0 z-50 px-6 py-6 flex justify-between items-center max-w-7xl mx-auto">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 bg-white rounded-2xl p-1 shadow-xl flex items-center justify-center">
+      <nav className="absolute top-0 left-0 right-0 z-50 px-4 py-4 md:px-6 md:py-6 flex justify-between items-center max-w-7xl mx-auto">
+        <div className="flex items-center gap-2 md:gap-4">
+          <div className="w-10 h-10 md:w-14 md:h-14 bg-white rounded-xl md:rounded-2xl p-1 shadow-xl flex items-center justify-center">
             <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
           </div>
           <div>
-            <h1 className="text-3xl font-light tracking-tight text-white drop-shadow-lg leading-none">
+            <h1 className="text-xl md:text-3xl font-light tracking-tight text-white drop-shadow-lg leading-none">
               Agri<span className="font-bold text-[#DCFCE7]">Sense</span>
             </h1>
-            <p className="text-[10px] uppercase tracking-[0.2em] text-[#DCFCE7]/80 mt-1.5 font-bold">
+            <p className="text-[8px] md:text-[10px] uppercase tracking-[0.2em] text-[#DCFCE7]/80 mt-1 font-bold">
               Rice Disease AI
             </p>
           </div>
         </div>
         
-        <div className="hidden lg:flex items-center gap-10 text-sm font-semibold text-white/90 bg-white/10 backdrop-blur-lg px-8 py-3.5 rounded-full border border-white/20 shadow-lg">
-          <a href="#fitur" className="hover:text-white hover:scale-105 transition-all">Fitur</a>
-          <a href="#langkah" className="hover:text-white hover:scale-105 transition-all">Cara Kerja</a>
-          <a href="#teknologi" className="hover:text-white hover:scale-105 transition-all">Teknologi</a>
-          <a href="#tentang" className="hover:text-white hover:scale-105 transition-all">Tentang</a>
-        </div>
-
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 md:gap-4">
           <select 
             value={lang} 
             onChange={(e) => setLang(e.target.value)}
-            className="bg-white/10 border border-white/20 text-white text-xs font-bold rounded-full px-4 py-2.5 focus:outline-none backdrop-blur-lg cursor-pointer appearance-none shadow-lg"
+            className="bg-white/10 border border-white/20 text-white text-[10px] md:text-xs font-bold rounded-full px-2 py-1.5 md:px-4 md:py-2 focus:outline-none backdrop-blur-lg cursor-pointer appearance-none shadow-lg"
           >
             <option value="id" className="text-gray-900">ID</option>
             <option value="en" className="text-gray-900">EN</option>
           </select>
           <button
             onClick={onStart}
-            className="text-sm font-bold text-[#0F766E] bg-white hover:bg-gray-50 px-8 py-3 rounded-full transition-all shadow-xl hover:shadow-2xl hover:-translate-y-0.5"
+            className="text-[10px] md:text-sm font-bold text-[#0F766E] bg-white hover:bg-gray-50 px-3 py-1.5 md:px-8 md:py-3 rounded-full transition-all shadow-xl hover:shadow-2xl hover:-translate-y-0.5 whitespace-nowrap"
           >
             {t.landing.navStart}
           </button>
@@ -81,7 +74,7 @@ export default function LandingPage({ onStart, lang, setLang, t }) {
             </span>
           </h1>
           
-          <p className="text-xl md:text-2xl text-gray-300 mb-12 leading-relaxed max-w-3xl mx-auto font-light animate-fade-in-up" style={{ animationDelay: '200ms' }}>
+          <p className="text-lg md:text-2xl text-gray-300 mb-12 leading-relaxed max-w-3xl mx-auto font-light animate-fade-in-up" style={{ animationDelay: '200ms' }}>
             {t.landing.heroDesc}
           </p>
 
@@ -244,7 +237,6 @@ export default function LandingPage({ onStart, lang, setLang, t }) {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Kotak 1 - Warna diubah ke Teal */}
             <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-lg transition-all group">
               <div className="w-12 h-12 bg-[#F0FDF4] text-[#0F766E] rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
@@ -253,7 +245,6 @@ export default function LandingPage({ onStart, lang, setLang, t }) {
               <p className="text-gray-500 text-sm leading-relaxed">Model AI dijalankan langsung di browser pengguna (Client-side inference), memastikan privasi data dan kecepatan tanpa server.</p>
             </div>
             
-            {/* Kotak 2 - Warna diubah ke Teal */}
             <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-lg transition-all group">
               <div className="w-12 h-12 bg-[#F0FDF4] text-[#0F766E] rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
@@ -262,7 +253,6 @@ export default function LandingPage({ onStart, lang, setLang, t }) {
               <p className="text-gray-500 text-sm leading-relaxed">Arsitektur CNN (Convolutional Neural Network) yang ringan dan efisien, dioptimalkan melalui Transfer Learning.</p>
             </div>
             
-            {/* Kotak 3 - Warna diubah ke Teal */}
             <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-lg transition-all group">
               <div className="w-12 h-12 bg-[#F0FDF4] text-[#0F766E] rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
@@ -303,7 +293,6 @@ export default function LandingPage({ onStart, lang, setLang, t }) {
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 mb-16">
             
-            {/* Kolom 1: Brand */}
             <div className="lg:col-span-2">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-12 h-12 bg-white rounded-xl p-1 shadow-md border border-gray-100">
@@ -327,7 +316,6 @@ export default function LandingPage({ onStart, lang, setLang, t }) {
               </div>
             </div>
             
-            {/* Kolom 2: Produk */}
             <div>
               <h4 className="text-sm font-bold text-gray-900 mb-6 uppercase tracking-wider">Produk</h4>
               <ul className="space-y-3 text-sm text-gray-500 font-medium">
@@ -338,7 +326,6 @@ export default function LandingPage({ onStart, lang, setLang, t }) {
               </ul>
             </div>
 
-            {/* Kolom 3: Perusahaan */}
             <div>
               <h4 className="text-sm font-bold text-gray-900 mb-6 uppercase tracking-wider">Perusahaan</h4>
               <ul className="space-y-3 text-sm text-gray-500 font-medium">
@@ -349,7 +336,6 @@ export default function LandingPage({ onStart, lang, setLang, t }) {
               </ul>
             </div>
 
-            {/* Kolom 4: Legal */}
             <div>
               <h4 className="text-sm font-bold text-gray-900 mb-6 uppercase tracking-wider">Legal</h4>
               <ul className="space-y-3 text-sm text-gray-500 font-medium">
@@ -361,7 +347,6 @@ export default function LandingPage({ onStart, lang, setLang, t }) {
             </div>
           </div>
           
-          {/* Garis Bawah Footer */}
           <div className="pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm font-medium text-gray-400">&copy; 2026 AgriSense. All Rights Reserved.</p>
           </div>
