@@ -1,7 +1,5 @@
 # AgriSense - Rice Disease Detection & Smart Farming Assistant
 
-![AgriSense Banner](public/hero-rice.jpeg)
-
 **AgriSense** adalah platform asisten pertanian cerdas berbasis web yang dirancang untuk membantu petani dan penyuluh mendeteksi penyakit daun padi, menghitung estimasi kerugian ekonomi, serta memberikan peringatan dini cuaca.
 
 Proyek ini dikembangkan untuk berpartisipasi dalam **FunDev<> International Competition 2026**, dengan fokus mendukung **SDG 2: Zero Hunger** dan **SDG 12: Responsible Consumption and Production**.
