@@ -8,7 +8,9 @@ export default function ResultCard({ result, user, t, detectionId, showToast }) 
 
   if (!result) return null;
   const info = CLASS_INFO[result.label] || {};
-  const isLowConfidence = result.confidence < 0.70;
+  
+  // THRESHOLD DITURUNKAN MENJADI 0.50
+  const isLowConfidence = result.confidence < 0.50;
 
   const handleExportPDF = () => {
     if (!user) {

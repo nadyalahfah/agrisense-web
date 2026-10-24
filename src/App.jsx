@@ -39,8 +39,6 @@ export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  
-  // State untuk PopupAlert
   const [popup, setPopup] = useState(null);
 
   const t = translations[lang];
@@ -135,7 +133,8 @@ export default function App() {
         const prediction = await predictImage(model, img);
         setResult(prediction);
 
-        if (prediction.confidence < 0.70) {
+        // THRESHOLD DITURUNKAN MENJADI 0.50
+        if (prediction.confidence < 0.50) {
           setPredicting(false);
           return; 
         }
@@ -284,7 +283,6 @@ export default function App() {
         </div>
       )}
 
-      {/* Ganti Toast menjadi PopupAlert */}
       {popup && <PopupAlert message={popup.message} type={popup.type} onClose={() => setPopup(null)} />}
 
       <Sidebar 
@@ -435,7 +433,7 @@ export default function App() {
 
               <ResultCard result={result} t={t} user={user} detectionId={detectionId} showToast={showToast} />
               
-              {result && result.confidence >= 0.70 && (
+              {result && result.confidence >= 0.50 && (
                 <ImpactCalculator diseaseLabel={result.label} />
               )}
             </div>
