@@ -2,15 +2,18 @@ import * as tf from "@tensorflow/tfjs";
 import { CLASS_NAMES } from "./classes";
 
 export async function predictImage(model, imageElement) {
-  const tensor = tf.browser
-    .fromPixels(imageElement)
-    .resizeNearestNeighbor([224, 224])
-    .toFloat()
-    .div(255)
-    .expandDims(0);
+  const input = tf.tidy(() => {
+    return tf.browser
+      .fromPixels(imageElement)
+      .resizeBilinear([224, 224])
+      .toFloat()
+      .div(255)
+      .expandDims(0);
+  });
 
-  const predictions = await model.predict(tensor).data();
-  tensor.dispose(); 
+  const predictions = await model.predict(input).data();
+  
+  input.dispose(); 
 
   let maxIdx = 0;
   for (let i = 1; i < predictions.length; i++) {

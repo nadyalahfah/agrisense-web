@@ -59,7 +59,7 @@ export default function ResultCard({ result, user, t, detectionId, showToast }) 
       return;
     }
 
-    const text = `Halo TANIA (Penyuluh Digital Kementan), saya menggunakan aplikasi AgriSense. Saya baru saja mendeteksi penyakit *${result.label}* pada tanaman padi saya dengan akurasi ${(result.confidence * 100).toFixed(1)}%. Mohon arahan dan penanganan lebih lanjut. Terima kasih.`;
+    const text = `Halo TANIA (Penyuluh Digital Kementan), saya menggunakan aplikasi AgriSense. Saya baru saja mendeteksi penyakit *${result.label}* pada tanaman padi saya dengan tingkat keyakinan ${(result.confidence * 100).toFixed(1)}%. Mohon arahan dan penanganan lebih lanjut. Terima kasih.`;
     
     const waUrl = `https://wa.me/6285121317419?text=${encodeURIComponent(text)}`;
     window.open(waUrl, '_blank');
@@ -86,7 +86,7 @@ export default function ResultCard({ result, user, t, detectionId, showToast }) 
             </div>
             
             <div className="bg-white rounded-2xl px-6 py-4 shadow-sm border border-gray-100 text-center min-w-[150px]">
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1">Akurasi Model</p>
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1">Tingkat Keyakinan</p>
               <div className="flex items-baseline justify-center gap-1">
                 <span className={`text-4xl font-black ${isLowConfidence ? 'text-red-500' : 'text-[#0F766E]'}`}>{(result.confidence * 100).toFixed(1)}</span>
                 <span className={`text-xl font-bold ${isLowConfidence ? 'text-red-500' : 'text-[#0F766E]'}`}>%</span>
@@ -154,7 +154,6 @@ export default function ResultCard({ result, user, t, detectionId, showToast }) 
               </a>
             ) : <div></div>}
             
-            {/* TATA LETAK TOMBOL BARU (GRID 3 KOLOM) */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full sm:w-auto">
               {!isLowConfidence && (
                 <>
