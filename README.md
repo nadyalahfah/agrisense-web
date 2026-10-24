@@ -13,6 +13,7 @@ Kamu dapat mencoba aplikasi AgriSense melalui tautan berikut:
 
 
 ## Fitur Utama
+Aplikasi ini memiliki fitur menyeluruh (end-to-end) yang dirancang untuk kebutuhan petani modern:
 
 ### 1. Deteksi AI Instan
 - Menggunakan model *Convolutional Neural Network* (MobileNetV2) yang dikonversi ke TensorFlow.js.
@@ -29,17 +30,20 @@ Kamu dapat mencoba aplikasi AgriSense melalui tautan berikut:
 
 ### 4. Jadwal Perawatan Otomatis
 - Membuat pengingat perawatan tanaman setelah proses deteksi.
-- Menyediakan jadwal tindak lanjut pada hari ke-3, ke-7, dan ke-14.
+- Dilengkapi dengan Pengingat Harian (Web Notification) yang muncul jika ada tugas perawatan hari ini.
 
-### 5. Peta Sebaran Penyakit
-- Menampilkan peta interaktif berbasis WebGIS.
-- Memetakan lokasi laporan penyakit yang tersimpan dalam sistem.
+### 5. Peta Sebaran Penyakit (WebGIS)
+- Menampilkan peta interaktif sebaran penyakit berdasarkan laporan pengguna.
+- Dilengkapi fitur Ekspor Laporan (CSV) untuk memudahkan Dinas Pertanian/Penyuluh mengunduh data laporan lapangan.
 
-### 6. Fitur Ramah Pengguna
+### 6. Konsultasi Lanjutan (TANIA)
+- Tombol pintas yang menghubungkan petani langsung ke layanan konsultasi TANIA (Penyuluh Digital Kementerian Pertanian) via WhatsApp dengan pesan otomatis berisi hasil deteksi.
+
+### 7. Fitur Ramah Pengguna (Aksesibilitas)
 - **Multi-Bahasa:** Mendukung Bahasa Indonesia dan Bahasa Inggris.
-- **Dark Mode:** Memberikan pilihan tampilan yang nyaman untuk mata.
-- **Text-to-Speech:** Membacakan informasi peringatan cuaca.
-- **Share to WhatsApp:** Memudahkan pengguna membagikan hasil deteksi kepada kelompok tani atau penyuluh.
+- **Dark Mode:** Tampilan gelap yang nyaman untuk mata.
+- **Mode Darurat (Offline):** Panduan penanganan penyakit tetap bisa diakses meskipun tanpa koneksi internet.
+- **Profil & UI Modern:** Desain antarmuka yang bersih, responsif, dan mudah digunakan oleh orang tua.
 
 
 ## Teknologi yang Digunakan
