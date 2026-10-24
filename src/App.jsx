@@ -12,11 +12,12 @@ import Statistics from "./components/Statistics";
 import ReminderList from "./components/ReminderList";
 import DiseaseMap from "./components/DiseaseMap";
 import OnboardingModal from "./components/OnboardingModal";
+import PopupAlert from "./components/PopupAlert";
 import { useModel } from "./hooks/useModel";
 import { predictImage } from "./utils/predict";
 import { supabase } from "./utils/supabaseClient";
 import { translations } from "./utils/translations";
-import { CLASS_INFO } from "./utils/classes"; // Import untuk Mode Darurat
+import { CLASS_INFO } from "./utils/classes";
 
 export default function App() {
   const { model, status, error } = useModel();
@@ -38,9 +39,17 @@ export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
+  // State untuk PopupAlert
+  const [popup, setPopup] = useState(null);
 
   const t = translations[lang];
   const user = session?.user;
+  const userName = user ? user.email.split('@')[0].split('.')[0] : "Tamu";
+
+  const showToast = (message, type = "success") => {
+    setPopup({ message, type });
+  };
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -126,7 +135,30 @@ export default function App() {
         const prediction = await predictImage(model, img);
         setResult(prediction);
 
+        if (prediction.confidence < 0.70) {
+          setPredicting(false);
+          return; 
+        }
+
+        let publicImageUrl = url; 
+
         if (session) {
+          const fileExt = file.name.split('.').pop();
+          const fileName = `${Date.now()}_${user.id}.${fileExt}`;
+          
+          const { error: uploadError } = await supabase.storage
+            .from('detections')
+            .upload(fileName, file);
+
+          if (!uploadError) {
+            const { data: urlData } = supabase.storage
+              .from('detections')
+              .getPublicUrl(fileName);
+            publicImageUrl = urlData.publicUrl;
+          } else {
+            console.error("Gagal upload gambar:", uploadError);
+          }
+
           let lat = null;
           let lng = null;
           try {
@@ -143,7 +175,7 @@ export default function App() {
             {
               label: prediction.label,
               confidence: prediction.confidence,
-              thumbnail: url,
+              thumbnail: publicImageUrl,
               user_id: user.id,
               latitude: lat,
               longitude: lng
@@ -153,6 +185,7 @@ export default function App() {
           if (data && data.length > 0) {
             setDetectionId(data[0].id);
           }
+
         } else if (isGuest) {
           const localHistory = JSON.parse(localStorage.getItem('agrisense_guest_history') || "[]");
           const newItem = {
@@ -177,13 +210,33 @@ export default function App() {
     [model, session, isGuest, user]
   );
 
-  const clearHistory = async () => {
+  const handleDeleteSingle = async (id) => {
     if (session) {
-      const { error } = await supabase.from('detections').delete().eq('user_id', user.id);
-      if (!error) setHistory([]);
+      const { error } = await supabase.from('detections').delete().eq('id', id);
+      if (!error) {
+        setHistory(history.filter(item => item.id !== id));
+        showToast("Riwayat berhasil dihapus", "success");
+      }
     } else {
-      localStorage.removeItem('agrisense_guest_history');
-      setHistory([]);
+      const updated = history.filter(item => item.id !== id);
+      setHistory(updated);
+      localStorage.setItem('agrisense_guest_history', JSON.stringify(updated));
+      showToast("Riwayat berhasil dihapus", "success");
+    }
+  };
+
+  const handleDeleteMultiple = async (ids) => {
+    if (session) {
+      const { error } = await supabase.from('detections').delete().in('id', ids);
+      if (!error) {
+        setHistory(history.filter(item => !ids.includes(item.id)));
+        showToast(`${ids.length} riwayat berhasil dihapus`, "success");
+      }
+    } else {
+      const updated = history.filter(item => !ids.includes(item.id));
+      setHistory(updated);
+      localStorage.setItem('agrisense_guest_history', JSON.stringify(updated));
+      showToast(`${ids.length} riwayat berhasil dihapus`, "success");
     }
   };
 
@@ -231,6 +284,9 @@ export default function App() {
         </div>
       )}
 
+      {/* Ganti Toast menjadi PopupAlert */}
+      {popup && <PopupAlert message={popup.message} type={popup.type} onClose={() => setPopup(null)} />}
+
       <Sidebar 
         activeTab={activeTab} 
         setActiveTab={setActiveTab} 
@@ -248,10 +304,7 @@ export default function App() {
 
       <main className="flex-1 overflow-y-auto print:overflow-visible relative">
         
-        {/* HEADER YANG SUDAH DIPERBAIKI */}
         <header className="bg-white/80 backdrop-blur-xl border-b border-gray-200 px-4 py-3 md:px-6 md:py-4 flex justify-between items-center sticky top-0 z-20 print:hidden">
-          
-          {/* BAGIAN KIRI: Hamburger + Logo (HP) + Status Akun (Laptop) */}
           <div className="flex items-center gap-3 md:gap-6">
             <button 
               onClick={() => setIsMobileMenuOpen(true)}
@@ -269,15 +322,19 @@ export default function App() {
               </h1>
             </div>
 
-            <div className="hidden md:block">
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Status Akun</p>
-              <p className="text-sm font-bold text-[#0F766E]">
-                {user ? user.email : "Mode Tamu (Guest)"}
-              </p>
+            <div className="hidden md:flex items-center gap-4">
+              <div className="w-10 h-10 bg-[#0F766E] text-white rounded-full flex items-center justify-center font-bold text-lg shadow-sm">
+                {userName[0].toUpperCase()}
+              </div>
+              <div>
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Selamat Datang,</p>
+                <p className="text-sm font-bold text-[#0F766E] capitalize">
+                  {userName}
+                </p>
+              </div>
             </div>
           </div>
           
-          {/* BAGIAN KANAN: Dropdown Bahasa & Tombol Keluar/Masuk */}
           <div className="flex items-center gap-2 md:gap-4">
             <select 
               value={lang} 
@@ -333,7 +390,6 @@ export default function App() {
             <div className="space-y-8 animate-fade-in print:space-y-4">
               <ModelStatus status={status} error={error} />
               
-              {/* TOMBOL MODE DARURAT (MUNCUL JIKA OFFLINE) */}
               {isOffline && (
                 <div className="bg-red-50 border-2 border-red-200 p-6 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm animate-fade-in">
                   <div>
@@ -377,14 +433,23 @@ export default function App() {
                 </div>
               )}
 
-              <ResultCard result={result} t={t} user={user} detectionId={detectionId} />
-              {result && <ImpactCalculator diseaseLabel={result.label} />}
+              <ResultCard result={result} t={t} user={user} detectionId={detectionId} showToast={showToast} />
+              
+              {result && result.confidence >= 0.70 && (
+                <ImpactCalculator diseaseLabel={result.label} />
+              )}
             </div>
           )}
 
           {activeTab === "riwayat" && (
             <div className="animate-fade-in">
-              <HistoryList history={history} onClear={clearHistory} t={t} />
+              <HistoryList 
+                history={history} 
+                onClear={() => {}} 
+                onDeleteSingle={handleDeleteSingle}
+                onDeleteMultiple={handleDeleteMultiple}
+                t={t} 
+              />
             </div>
           )}
 
@@ -412,12 +477,12 @@ export default function App() {
             </div>
           )}
 
-          {/* HALAMAN MODE DARURAT (OFFLINE) */}
           {activeTab === "bantuan_darurat" && (
             <div className="animate-fade-in space-y-6">
-              <div className="bg-[#0A1C14] p-8 rounded-3xl text-white shadow-xl mb-8">
-                <h2 className="text-3xl font-black mb-2">Panduan Darurat Offline</h2>
-                <p className="text-[#DCFCE7]">Daftar tindakan pertama untuk penyakit padi yang paling umum. Halaman ini dapat diakses tanpa internet.</p>
+              <div className="bg-[#0A1C14] p-6 md:p-8 rounded-3xl text-white shadow-xl mb-8">
+                <p className="text-[#DCFCE7] text-lg font-medium leading-relaxed">
+                  Halaman ini berisi daftar tindakan pertama untuk penyakit padi yang paling umum. Anda dapat mengakses halaman ini kapan saja, bahkan tanpa koneksi internet.
+                </p>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

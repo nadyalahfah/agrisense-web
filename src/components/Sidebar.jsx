@@ -16,20 +16,20 @@ export default function Sidebar({
 }) {
   const [showSettings, setShowSettings] = useState(false);
 
-  // Daftar menu (termasuk mode darurat)
+  // Urutan Menu Sesuai User Journey
   const menus = [
     { id: "deteksi", label: t.detection },
     { id: "riwayat", label: t.history },
-    { id: "cuaca", label: t.weather },
-    { id: "statistik", label: t.stats },
     { id: "jadwal", label: "Jadwal" },
     { id: "peta", label: "Peta" },
+    { id: "cuaca", label: t.weather },
+    { id: "statistik", label: t.stats },
     { id: "bantuan_darurat", label: "Darurat" },
   ];
 
   const handleMenuClick = (id) => {
     setActiveTab(id);
-    setIsMobileMenuOpen(false); // Tutup menu otomatis saat menu diklik di HP
+    setIsMobileMenuOpen(false);
   };
 
   return (
@@ -42,7 +42,7 @@ export default function Sidebar({
         ></div>
       )}
 
-      {/* SIDEBAR (Tampil di Desktop, Meluncur di HP) */}
+      {/* SIDEBAR */}
       <aside className={`
         fixed md:static top-0 left-0 h-full w-64 bg-white border-r border-gray-200 z-[100] flex flex-col print:hidden transition-transform duration-300 ease-in-out
         ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}

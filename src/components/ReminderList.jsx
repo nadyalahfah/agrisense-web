@@ -3,15 +3,18 @@ import { supabase } from "../utils/supabaseClient";
 
 export default function ReminderList({ user }) {
   const [groupedReminders, setGroupedReminders] = useState({});
+  const [notificationPermission, setNotificationPermission] = useState("default");
 
   useEffect(() => {
     fetchReminders();
+    if ("Notification" in window) {
+      setNotificationPermission(Notification.permission);
+    }
   }, []);
 
   const fetchReminders = async () => {
     if (!user) return;
     
-    // Ambil jadwal beserta data penyakit dari tabel detections
     const { data } = await supabase
       .from('reminders')
       .select(`
@@ -26,7 +29,6 @@ export default function ReminderList({ user }) {
       .order('due_date', { ascending: true });
     
     if (data) {
-      // Kelompokkan berdasarkan ID Deteksi
       const grouped = data.reduce((acc, item) => {
         const detId = item.detection_id;
         if (!acc[detId]) {
@@ -41,6 +43,41 @@ export default function ReminderList({ user }) {
       }, {});
       
       setGroupedReminders(grouped);
+      checkTodayReminders(data); // Panggil fungsi cek notifikasi
+    }
+  };
+
+  // --- FITUR PENGINGAT HARIAN ---
+  const requestNotificationPermission = async () => {
+    if (!("Notification" in window)) {
+      alert("Browser Anda tidak mendukung notifikasi.");
+      return;
+    }
+    const permission = await Notification.requestPermission();
+    setNotificationPermission(permission);
+    if (permission === "granted") {
+      alert("Notifikasi berhasil diaktifkan!");
+    }
+  };
+
+  const checkTodayReminders = (reminders) => {
+    if (!("Notification" in window) || Notification.permission !== "granted") return;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const dueToday = reminders.filter(r => {
+      if (r.is_completed) return false;
+      const dueDate = new Date(r.due_date);
+      dueDate.setHours(0, 0, 0, 0);
+      return dueDate <= today; // Jika hari ini atau sudah terlewat
+    });
+
+    if (dueToday.length > 0) {
+      new Notification("AgriSense - Pengingat Perawatan", {
+        body: `Anda memiliki ${dueToday.length} tugas perawatan tanaman padi yang harus diselesaikan hari ini!`,
+        icon: "/logo.png"
+      });
     }
   };
 
@@ -70,6 +107,28 @@ export default function ReminderList({ user }) {
 
   return (
     <div className="space-y-8 animate-fade-in">
+      
+      {/* Banner Pengingat Harian */}
+      {notificationPermission !== "granted" && (
+        <div className="bg-[#F0FDF4] border-2 border-[#DCFCE7] rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm">
+              <svg className="w-6 h-6 text-[#0F766E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-[#0F766E]">Aktifkan Pengingat Harian</h3>
+              <p className="text-sm font-medium text-[#0F766E]/80">Dapatkan notifikasi jika ada jadwal perawatan hari ini.</p>
+            </div>
+          </div>
+          <button 
+            onClick={requestNotificationPermission}
+            className="bg-[#0F766E] hover:bg-[#0D655E] text-white font-bold px-6 py-2.5 rounded-xl shadow-md transition-colors whitespace-nowrap text-sm"
+          >
+            Izinkan Notifikasi
+          </button>
+        </div>
+      )}
+
       {groupKeys.length === 0 ? (
         <div className="bg-white rounded-[2rem] border-2 border-gray-100 p-12 text-center shadow-sm">
           <p className="text-[#0A1C14] font-bold text-lg mb-2">Belum ada jadwal perawatan.</p>
@@ -82,7 +141,6 @@ export default function ReminderList({ user }) {
           return (
             <div key={detId} className="bg-white rounded-[2rem] border-2 border-gray-100 shadow-sm overflow-hidden">
               
-              {/* Header Grup (Nama Penyakit & Tgl Deteksi) */}
               <div className="bg-[#F8FAF8] p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
                   <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">Jadwal Perawatan untuk</p>
@@ -94,7 +152,6 @@ export default function ReminderList({ user }) {
                 </div>
               </div>
 
-              {/* List Tugas */}
               <div className="p-6 space-y-3">
                 {group.tasks.map((task) => {
                   const dueDateObj = new Date(task.due_date);
