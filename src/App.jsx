@@ -16,6 +16,7 @@ import { useModel } from "./hooks/useModel";
 import { predictImage } from "./utils/predict";
 import { supabase } from "./utils/supabaseClient";
 import { translations } from "./utils/translations";
+import { CLASS_INFO } from "./utils/classes"; // Import untuk Mode Darurat
 
 export default function App() {
   const { model, status, error } = useModel();
@@ -247,9 +248,11 @@ export default function App() {
 
       <main className="flex-1 overflow-y-auto print:overflow-visible relative">
         
+        {/* HEADER YANG SUDAH DIPERBAIKI */}
         <header className="bg-white/80 backdrop-blur-xl border-b border-gray-200 px-4 py-3 md:px-6 md:py-4 flex justify-between items-center sticky top-0 z-20 print:hidden">
-          <div className="flex items-center gap-3">
-            
+          
+          {/* BAGIAN KIRI: Hamburger + Logo (HP) + Status Akun (Laptop) */}
+          <div className="flex items-center gap-3 md:gap-6">
             <button 
               onClick={() => setIsMobileMenuOpen(true)}
               className="md:hidden p-1.5 text-[#0F766E] bg-[#F0FDF4] rounded-lg border border-[#DCFCE7]"
@@ -258,7 +261,6 @@ export default function App() {
             </button>
 
             <div className="md:hidden flex items-center gap-2">
-              {/* LOGO DIPERBAIKI */}
               <div className="w-9 h-9 flex items-center justify-center shrink-0">
                 <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
               </div>
@@ -266,15 +268,16 @@ export default function App() {
                 AGRI<span className="font-bold">SENSE</span>
               </h1>
             </div>
+
+            <div className="hidden md:block">
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Status Akun</p>
+              <p className="text-sm font-bold text-[#0F766E]">
+                {user ? user.email : "Mode Tamu (Guest)"}
+              </p>
+            </div>
           </div>
           
-          <div className="hidden md:block">
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Status Akun</p>
-            <p className="text-sm font-bold text-[#0F766E]">
-              {user ? user.email : "Mode Tamu (Guest)"}
-            </p>
-          </div>
-
+          {/* BAGIAN KANAN: Dropdown Bahasa & Tombol Keluar/Masuk */}
           <div className="flex items-center gap-2 md:gap-4">
             <select 
               value={lang} 
@@ -313,6 +316,7 @@ export default function App() {
               {activeTab === 'statistik' && t.stats}
               {activeTab === 'jadwal' && "Jadwal Perawatan"}
               {activeTab === 'peta' && "Peta Sebaran Penyakit"}
+              {activeTab === 'bantuan_darurat' && "Panduan Darurat"}
             </h2>
             <p className="text-sm text-gray-500 font-medium">
               {activeTab === 'deteksi' && "Unggah foto daun padi untuk mendeteksi penyakit secara instan."}
@@ -321,12 +325,30 @@ export default function App() {
               {activeTab === 'statistik' && "Analisis data deteksi dan dampak ekonomi Anda."}
               {activeTab === 'jadwal' && "Daftar tugas perawatan tanaman padi Anda."}
               {activeTab === 'peta' && "Sebaran penyakit padi berdasarkan laporan pengguna."}
+              {activeTab === 'bantuan_darurat' && "Panduan penanganan pertama saat Anda tidak memiliki akses internet."}
             </p>
           </div>
 
           {activeTab === "deteksi" && (
             <div className="space-y-8 animate-fade-in print:space-y-4">
               <ModelStatus status={status} error={error} />
+              
+              {/* TOMBOL MODE DARURAT (MUNCUL JIKA OFFLINE) */}
+              {isOffline && (
+                <div className="bg-red-50 border-2 border-red-200 p-6 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm animate-fade-in">
+                  <div>
+                    <h3 className="text-lg font-bold text-red-700">Anda Sedang Offline</h3>
+                    <p className="text-red-600 text-sm font-medium">Jangan khawatir, Anda tetap bisa membaca panduan penanganan darurat.</p>
+                  </div>
+                  <button 
+                    onClick={() => setActiveTab("bantuan_darurat")}
+                    className="bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-3 rounded-xl shadow-md transition-colors whitespace-nowrap"
+                  >
+                    Buka Panduan Darurat
+                  </button>
+                </div>
+              )}
+
               <UploadCard onImageSelected={handleImageSelected} disabled={predicting} t={t} />
               
               {predicting && (
@@ -387,6 +409,41 @@ export default function App() {
           {activeTab === "peta" && (
             <div className="animate-fade-in">
               <DiseaseMap />
+            </div>
+          )}
+
+          {/* HALAMAN MODE DARURAT (OFFLINE) */}
+          {activeTab === "bantuan_darurat" && (
+            <div className="animate-fade-in space-y-6">
+              <div className="bg-[#0A1C14] p-8 rounded-3xl text-white shadow-xl mb-8">
+                <h2 className="text-3xl font-black mb-2">Panduan Darurat Offline</h2>
+                <p className="text-[#DCFCE7]">Daftar tindakan pertama untuk penyakit padi yang paling umum. Halaman ini dapat diakses tanpa internet.</p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {Object.entries(CLASS_INFO).map(([key, info]) => {
+                  if (key === "Healthy") return null;
+                  return (
+                    <div key={key} className="bg-white rounded-2xl p-6 border-2 border-gray-100 shadow-sm hover:border-[#0F766E]/30 transition-colors">
+                      <h3 className="text-xl font-bold text-[#0F766E] mb-4 border-b border-gray-100 pb-2">{key}</h3>
+                      <div className="space-y-4">
+                        <div>
+                          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">1. Tindakan Segera</p>
+                          <p className="text-sm text-gray-700 font-medium">{info.actionPlan.step1}</p>
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">2. Pengobatan</p>
+                          <p className="text-sm text-gray-700 font-medium">{info.actionPlan.step2}</p>
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">3. Pencegahan</p>
+                          <p className="text-sm text-gray-700 font-medium">{info.actionPlan.step3}</p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           )}
         </div>
