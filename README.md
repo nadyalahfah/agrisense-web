@@ -1,113 +1,105 @@
-# AgriSense - Rice Disease Detection & Smart Farming Assistant
+# AgriSense - Instant Rice Disease Detection & Smart Farming Assistant
 
-**AgriSense** adalah platform asisten pertanian cerdas berbasis web yang dirancang untuk membantu petani dan penyuluh mendeteksi penyakit daun padi, menghitung estimasi kerugian ekonomi, serta memberikan peringatan dini cuaca.
+AgriSense is a web-based AI assistant designed to help smallholder farmers and extension officers detect 10 types of rice diseases instantly, calculate economic losses in Rupiah, warn of weather-driven fungal risks, and connect to agricultural experts.
 
-Proyek ini dikembangkan untuk berpartisipasi dalam **FunDev<> International Competition 2026**, dengan fokus mendukung **SDG 2: Zero Hunger** dan **SDG 12: Responsible Consumption and Production**.
+This project was developed for the FunDev<> International Competition 2026, directly supporting SDG 2: Zero Hunger and SDG 12: Responsible Consumption and Production.
 
+- **Live Demo:** https://agrisense-web-ten.vercel.app/
+- **Product Demo Video:** https://youtu.be/2mCexba68q0
 
-## Live Demo
+## The Problem
 
-Kamu dapat mencoba aplikasi AgriSense melalui tautan berikut:
+Every diseased leaf is a harvest at risk.
 
-**https://agrisense-web-ten.vercel.app/**
+- **37.2% estimated rice yield loss** from combined pest injuries and weeds in tropical Asia.
+- **60M+ people faced hunger worldwide in 2024**, highlighting the urgent need for stronger food security.
+- **Look-alike symptoms:** Leaf blast, brown spot, and bacterial blight are incredibly hard to tell apart by eye.
+- **Thin expert coverage:** About 47,600 extension workers serve roughly 75,000 agricultural villages (approximately 0.6 per village).
 
+**The Gap:** Farmers lack an instant, affordable, expert-grade diagnosis at the moment it matters most.
 
-## Fitur Utama
-Aplikasi ini memiliki fitur menyeluruh (end-to-end) yang dirancang untuk kebutuhan petani modern:
+## The Solution
 
-### 1. Deteksi AI Instan
-- Menggunakan model *Convolutional Neural Network* (MobileNetV2) yang dikonversi ke TensorFlow.js.
-- Mendeteksi 10 jenis penyakit padi melalui foto daun.
-- Gambar diproses langsung di browser pengguna tanpa dikirim ke server untuk proses inferensi.
+From leaf photo to informed farming decisions, in seconds.
 
-### 2. Simulasi Dampak Ekonomi
-- Menghitung estimasi potensi kerugian finansial dalam Rupiah akibat penyakit yang terdeteksi.
-- Membantu petani mempertimbangkan tindakan penanganan berdasarkan estimasi dampak ekonomi.
+AgriSense replaces delayed manual scouting and expensive cloud AI apps with a local-first, end-to-end workflow:
 
-### 3. Peringatan Dini Cuaca
-- Terintegrasi dengan Open-Meteo API untuk memantau suhu, kelembapan, dan curah hujan berdasarkan lokasi pengguna.
-- Memberikan peringatan ketika kondisi cuaca berpotensi meningkatkan risiko penyakit tanaman.
+1. **Capture:** Upload a rice leaf photo from any phone.
+2. **Detect:** MobileNetV2 on TensorFlow.js runs on-device inference.
+3. **Diagnose:** Get the disease class with a confidence score.
+4. **Decide:** View financial loss in Rupiah, weather risk, care schedule, and a direct link to TANIA (Ministry of Agriculture).
 
-### 4. Jadwal Perawatan Otomatis
-- Membuat pengingat perawatan tanaman setelah proses deteksi.
-- Dilengkapi dengan Pengingat Harian (Web Notification) yang muncul jika ada tugas perawatan hari ini.
+### Core Features
 
-### 5. Peta Sebaran Penyakit (WebGIS)
-- Menampilkan peta interaktif sebaran penyakit berdasarkan laporan pengguna.
-- Dilengkapi fitur Ekspor Laporan (CSV) untuk memudahkan Dinas Pertanian/Penyuluh mengunduh data laporan lapangan.
+- **AI-Powered Detection:** 10 rice disease classes with on-device inference (no image upload for prediction).
+- **Economic Impact:** Potential loss estimated in Rupiah based on land area and yield.
+- **Weather Warnings:** Open-Meteo API alerts for fungal disease risks.
+- **Care Scheduler:** Automated 14-day reminders with daily web notifications.
+- **Disease WebGIS:** Community disease map with CSV export for extension offices.
+- **Expert Consultation (TANIA):** Direct WhatsApp link with prefilled diagnosis to the Ministry's digital assistant.
+- **Accessibility:** Bilingual UI (ID/EN), Dark Mode, and an Offline Emergency Guide.
 
-### 6. Konsultasi Lanjutan (TANIA)
-- Tombol pintas yang menghubungkan petani langsung ke layanan konsultasi TANIA (Penyuluh Digital Kementerian Pertanian) via WhatsApp dengan pesan otomatis berisi hasil deteksi.
+## Technology Stack
 
-### 7. Fitur Ramah Pengguna (Aksesibilitas)
-- **Multi-Bahasa:** Mendukung Bahasa Indonesia dan Bahasa Inggris.
-- **Dark Mode:** Tampilan gelap yang nyaman untuk mata.
-- **Mode Darurat (Offline):** Panduan penanganan penyakit tetap bisa diakses meskipun tanpa koneksi internet.
-- **Profil & UI Modern:** Desain antarmuka yang bersih, responsif, dan mudah digunakan oleh orang tua.
-
-
-## Teknologi yang Digunakan
-
-| Kategori | Teknologi |
-|---|---|
+| Layer | Technology |
+| :--- | :--- |
 | Frontend | React.js, Vite, Tailwind CSS |
-| Machine Learning | TensorFlow.js, MobileNetV2 |
-| Database | Supabase PostgreSQL |
-| Authentication | Supabase Auth |
-| Peta Interaktif | React-Leaflet, OpenStreetMap |
-| API Cuaca | Open-Meteo API |
-| Deployment | Vercel |
+| Machine Learning | TensorFlow.js, MobileNetV2 (CNN) |
+| Database & Auth | Supabase PostgreSQL, Supabase Auth, Supabase Storage |
+| Maps | React-Leaflet, OpenStreetMap |
+| Weather Data | Open-Meteo API |
+| Deployment | Vercel (CI/CD from GitHub) |
 
+## Local Development Guide
 
-## Panduan Instalasi dan Menjalankan Proyek
+Follow these steps to run AgriSense on your local computer.
 
-Ikuti langkah-langkah berikut untuk menjalankan AgriSense di komputer lokal.
+### 1. Clone the Repository
 
-### 1. Clone Repositori
-
-Pastikan Git sudah terinstal, kemudian jalankan perintah berikut di terminal:
+Ensure Git is installed, then run the following commands in your terminal:
 
 ```bash
 git clone https://github.com/nadyalahfah/agrisense-web.git
 cd agrisense-web
-```
 
-### 2. Install Dependensi
+### 2. Install Dependencies
 
-Pastikan Node.js sudah terinstal, lalu jalankan:
+Ensure Node.js is installed, then run:
 
 ```bash
 npm install
 ```
 
-### 3. Setup Environment Variables
+### 3. Set Up Environment Variables & Supabase
 
-Buat file bernama `.env` di folder utama proyek, kemudian masukkan konfigurasi Supabase berikut:
+Create a file named .env in the project's root folder, then add the following configuration:
 
 ```env
 VITE_SUPABASE_URL=your_supabase_project_url
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
-Ganti nilai tersebut menggunakan URL proyek dan publishable/anon key yang sesuai dari dashboard Supabase. Jangan pernah memasukkan `service_role key` atau secret key ke dalam kode frontend.
+Important: Never include the service_role key or secret key in your frontend code.
 
-### 4. Jalankan Aplikasi
+Supabase Setup Requirements:
+- Database Tables:
+  - detections (columns: id, label, confidence, thumbnail, latitude, longitude, user_id, created_at).
+  - reminders (columns: id, detection_id, title, is_completed, due_date, created_at).
+- Storage: Create a public bucket named detections to store history photos.
 
-Jalankan server pengembangan dengan perintah:
+### 4. Run the Application
+
+Run the development server with the following command:
 
 ```bash
 npm run dev
 ```
 
-Buka alamat berikut di browser:
+Open http://localhost:5173 in your browser.
 
-```text
-http://localhost:5173
-```
+### 5. Update the Project on GitHub and Vercel
 
-### 5. Update Proyek ke GitHub dan Vercel
-
-Setelah melakukan perubahan pada kode, jalankan perintah berikut untuk mengunggah perubahan ke GitHub:
+After making changes to the code, run the following commands to upload changes to GitHub:
 
 ```bash
 git add .
@@ -115,10 +107,10 @@ git commit -m "Update fitur AgriSense"
 git push origin main
 ```
 
-Jika repositori sudah terhubung dengan Vercel, push ke branch yang terhubung akan memicu proses deployment otomatis sesuai konfigurasi proyek.
+Pushing to the connected branch will automatically trigger the deployment process on Vercel.
 
 
-## Tim Pengembang
+## Team Profile & Contact
 
 Proyek ini dikembangkan oleh tim mahasiswa untuk **FunDev<> International Competition 2026**.
 
@@ -126,17 +118,19 @@ Proyek ini dikembangkan oleh tim mahasiswa untuk **FunDev<> International Compet
 - **Elaine Keisha M. Pasaribu** — Machine Learning Engineer & Data Scientist
 
 
-## Tujuan Proyek
+## Impact & Sustainable Development Goals (SDGs)
 
-AgriSense bertujuan membantu petani mengenali potensi penyakit tanaman padi lebih awal, memahami dampak ekonominya, serta memperoleh informasi cuaca dan panduan perawatan tanaman dalam satu platform.
+AgriSense aims to protect rice yields by catching diseases early and cut crop waste with precise, timely treatment decisions.
+- **SDG 2 (Zero Hunger):** Supporting food security through early disease detection and crop protection.
+- **SDG 12 (Responsible Consumption and Production):** Encouraging precise plant care decisions and responsible resource use.
 
-Melalui pemanfaatan kecerdasan buatan dan teknologi web, AgriSense diharapkan dapat mendukung pertanian yang lebih produktif dan berkelanjutan.
 
+## Pilot Targets (Proposed)
 
-## Sustainable Development Goals (SDGs)
-
-- **SDG 2 — Zero Hunger:** Mendukung ketahanan pangan melalui pemantauan kesehatan tanaman padi.
-- **SDG 12 — Responsible Consumption and Production:** Mendorong pengambilan keputusan perawatan tanaman yang lebih tepat dan penggunaan sumber daya secara bertanggung jawab.
+- 3+ farmer groups onboarded.
+- 90%+ diagnostic accuracy on field images.
+- Less than 1 minute photo-to-decision time.
+- 100% on-device image privacy.
 
 ---
 
