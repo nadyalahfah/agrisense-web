@@ -61,6 +61,7 @@ Ensure Git is installed, then run the following commands in your terminal:
 ```bash
 git clone https://github.com/nadyalahfah/agrisense-web.git
 cd agrisense-web
+```
 
 ### 2. Install Dependencies
 
