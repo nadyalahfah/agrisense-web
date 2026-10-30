@@ -9,8 +9,8 @@ export default function ResultCard({ result, user, t, detectionId, showToast }) 
   if (!result) return null;
   const info = CLASS_INFO[result.label] || {};
   
-  // THRESHOLD DITURUNKAN MENJADI 0.50
   const isLowConfidence = result.confidence < 0.50;
+  const isNotRice = result.label === "Bukan Daun Padi";
 
   const handleExportPDF = () => {
     if (!user) {
@@ -21,8 +21,8 @@ export default function ResultCard({ result, user, t, detectionId, showToast }) 
   };
 
   const handleCreateReminder = async () => {
-    if (isLowConfidence) {
-      showToast("Tidak bisa membuat jadwal karena gambar tidak dikenali.", "error");
+    if (isLowConfidence || isNotRice) {
+      showToast("Tidak bisa membuat jadwal karena gambar tidak valid.", "error");
       return;
     }
     if (!user) {
@@ -56,8 +56,8 @@ export default function ResultCard({ result, user, t, detectionId, showToast }) 
   };
 
   const handleConsultTania = () => {
-    if (isLowConfidence) {
-      showToast("Tidak bisa konsultasi karena gambar tidak dikenali.", "error");
+    if (isLowConfidence || isNotRice) {
+      showToast("Tidak bisa konsultasi karena gambar tidak valid.", "error");
       return;
     }
 
@@ -77,9 +77,9 @@ export default function ResultCard({ result, user, t, detectionId, showToast }) 
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border border-[#DCFCE7] shadow-sm rounded-full mb-4">
-                <span className={`w-2 h-2 rounded-full ${isLowConfidence ? 'bg-red-500' : 'bg-[#10B981]'} animate-pulse`}></span>
-                <p className={`text-[10px] font-bold uppercase tracking-[0.2em] ${isLowConfidence ? 'text-red-500' : 'text-[#0F766E]'}`}>
-                  {isLowConfidence ? "Gambar Tidak Valid" : "Diagnosis Selesai"}
+                <span className={`w-2 h-2 rounded-full ${isLowConfidence || isNotRice ? 'bg-red-500' : 'bg-[#10B981]'} animate-pulse`}></span>
+                <p className={`text-[10px] font-bold uppercase tracking-[0.2em] ${isLowConfidence || isNotRice ? 'text-red-500' : 'text-[#0F766E]'}`}>
+                  {isLowConfidence || isNotRice ? "Gambar Tidak Valid" : "Diagnosis Selesai"}
                 </p>
               </div>
               <h2 className="text-4xl md:text-5xl font-bold text-[#0A1C14] tracking-tight">
@@ -90,21 +90,21 @@ export default function ResultCard({ result, user, t, detectionId, showToast }) 
             <div className="bg-white rounded-2xl px-6 py-4 shadow-sm border border-gray-100 text-center min-w-[150px]">
               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1">Tingkat Keyakinan</p>
               <div className="flex items-baseline justify-center gap-1">
-                <span className={`text-4xl font-black ${isLowConfidence ? 'text-red-500' : 'text-[#0F766E]'}`}>{(result.confidence * 100).toFixed(1)}</span>
-                <span className={`text-xl font-bold ${isLowConfidence ? 'text-red-500' : 'text-[#0F766E]'}`}>%</span>
+                <span className={`text-4xl font-black ${isLowConfidence || isNotRice ? 'text-red-500' : 'text-[#0F766E]'}`}>{(result.confidence * 100).toFixed(1)}</span>
+                <span className={`text-xl font-bold ${isLowConfidence || isNotRice ? 'text-red-500' : 'text-[#0F766E]'}`}>%</span>
               </div>
             </div>
           </div>
         </div>
 
         <div className="p-8 md:p-12 bg-white">
-          {isLowConfidence ? (
+          {(isLowConfidence || isNotRice) ? (
             <div className="bg-red-50 border border-red-200 p-6 rounded-2xl mb-8 text-center">
               <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
               </div>
-              <h3 className="text-xl font-bold text-red-700 mb-2">Gambar Tidak Dikenali</h3>
-              <p className="text-red-600">Sistem tidak yakin objek ini adalah daun padi. Harap unggah foto daun padi yang jelas dan tidak blur.</p>
+              <h3 className="text-xl font-bold text-red-700 mb-2">Bukan Daun Padi</h3>
+              <p className="text-red-600">Sistem mendeteksi objek ini bukan sebagai daun padi. Harap unggah foto daun padi yang jelas dan tidak blur.</p>
             </div>
           ) : (
             <>
@@ -144,7 +144,7 @@ export default function ResultCard({ result, user, t, detectionId, showToast }) 
           )}
 
           <div className="flex flex-col sm:flex-row justify-between items-center pt-8 border-t border-gray-100 gap-4">
-            {info.reference && !isLowConfidence ? (
+            {info.reference && !isLowConfidence && !isNotRice ? (
               <a
                 href={info.reference}
                 target="_blank"
@@ -157,7 +157,7 @@ export default function ResultCard({ result, user, t, detectionId, showToast }) 
             ) : <div></div>}
             
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full sm:w-auto">
-              {!isLowConfidence && (
+              {!isLowConfidence && !isNotRice && (
                 <>
                   <button
                     onClick={handleConsultTania}
@@ -180,7 +180,7 @@ export default function ResultCard({ result, user, t, detectionId, showToast }) 
               <button
                 onClick={handleExportPDF}
                 className={`w-full text-xs font-bold px-5 py-3.5 rounded-xl transition-all print:hidden flex items-center justify-center gap-2 ${
-                  user && !isLowConfidence
+                  user && !isLowConfidence && !isNotRice
                     ? "bg-white border-2 border-[#0F766E] text-[#0F766E] hover:bg-[#F0FDF4]" 
                     : "bg-gray-100 text-gray-400 cursor-not-allowed"
                 }`}

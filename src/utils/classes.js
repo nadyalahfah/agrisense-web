@@ -9,6 +9,7 @@ export const CLASS_NAMES = [
   "Rice Hispa",
   "Sheath Blight",
   "Tungro",
+  "Bukan Daun Padi"
 ];
 
 export const CLASS_INFO = {
@@ -102,4 +103,9 @@ export const CLASS_INFO = {
     },
     reference: "https://www.google.com/search?q=Tungro+penyakit+padi+penanganan",
   },
+  "Bukan Daun Padi": {
+    description: "Foto ini bukan daun padi.",
+    actionPlan: null,
+    reference: null,
+  }
 };
